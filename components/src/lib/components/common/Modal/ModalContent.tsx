@@ -32,6 +32,7 @@ const ContentContainer = styled.div<ContentContainerStyleProps>`
   display: flex;
   flex-direction: ${({ $direction }) => $direction};
   gap: 2rem;
+  overflow-y: auto;
 `;
 
 const BasicDescription = styled.div`

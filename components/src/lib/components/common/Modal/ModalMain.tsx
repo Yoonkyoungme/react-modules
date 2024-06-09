@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { MODAL_SIZE } from '../../constants/styles';
 
 export interface ModalProps {
-  $size?: StyleSize;
+  $size?: StyleSize | string;
+  $height?: string;
   $position?: StylePosition;
   children?: React.ReactNode;
   onCloseModal: () => void;
@@ -12,6 +13,7 @@ export interface ModalProps {
 
 function ModalMain({
   $size = 'medium',
+  $height = 'auto',
   $position = 'center',
   children,
   onCloseModal,
@@ -24,7 +26,7 @@ function ModalMain({
 
   return (
     <BackDrop onClick={handleBackdropClick}>
-      <Container $size={$size} $position={$position}>
+      <Container $size={$size} $height={$height} $position={$position}>
         {children}
       </Container>
     </BackDrop>
@@ -34,7 +36,8 @@ function ModalMain({
 export default ModalMain;
 
 interface ContainerStyleProps {
-  $size: StyleSize;
+  $size: StyleSize | string;
+  $height: string;
   $position: StylePosition;
 }
 
@@ -45,7 +48,6 @@ const BackDrop = styled.div`
   width: 100%;
   height: 100%;
   background-color: var(--gray-color-300);
-  backdrop-filter: blur(5px);
 `;
 
 const Container = styled.div<ContainerStyleProps>`
@@ -59,7 +61,11 @@ const Container = styled.div<ContainerStyleProps>`
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-  width: ${({ $size }) => MODAL_SIZE[$size] || MODAL_SIZE['medium']};
+  width: ${({ $size }) =>
+    typeof $size === 'string'
+      ? $size
+      : MODAL_SIZE[$size] || MODAL_SIZE['medium']};
+  height: ${({ $height }) => $height};
   padding: 2.4rem 3.2rem;
   box-sizing: border-box;
   border-radius: 0.8rem;
